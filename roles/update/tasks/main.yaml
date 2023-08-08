@@ -1,0 +1,64 @@
+# This is stage 1 of the server setup
+
+# Update and Upgrade
+- name: Run the equivalent of "apt-get update" as a separate step
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Upgrade the OS (apt-get dist-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+
+# Remove all snap packages and uninstall snapd
+- name: Remove all related to snap
+  block:
+  - name: Remove lxd
+    community.general.snap:
+      name: lxd
+      state: absent
+
+  - name: Remove core18
+    community.general.snap:
+      name: core18
+      state: absent
+
+  - name: Remove core20
+    community.general.snap:
+      name: core20
+      state: absent
+
+  - name: Remove snapd
+    community.general.snap:
+      name: snapd
+      state: absent
+
+  - name: Purge snapd config files
+    ansible.builtin.apt:
+      purge: yes
+      name: snapd
+      state: absent
+
+  - name: Remove snap folder from root
+    ansible.builtin.file:
+      path: /root/snap
+      state: absent
+
+  - name: Remove snap folder from odin
+    ansible.builtin.file:
+      path: /home/odin/snap
+      state: absent
+  ignore_errors: yes
+

@@ -1,0 +1,6 @@
+- name: Test play
+  hosts: all
+  become: yes
+  tasks:
+    - name: A test task
+      

@@ -1,0 +1,11 @@
+- name: Run connection tests
+  hosts: asgard
+  roles:
+  - connection
+
+- name: Run all stages as root
+  hosts: asgard
+  become: yes
+  roles:
+  - stage1
+  - stage2

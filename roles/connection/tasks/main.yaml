@@ -1,0 +1,11 @@
+# This Playbook runs connectivity check ans copys hello file
+
+- name: Ping my hosts
+  ping:
+
+- name: Print message
+  debug:
+    msg: Hello world$
+
+- name: Coppy file
+  copy: src=hello.txt dest=/home/odin/

@@ -1,0 +1,4 @@
+- name: Run the connection role
+  hosts: ubuntu-test
+  roles:
+  - connection
